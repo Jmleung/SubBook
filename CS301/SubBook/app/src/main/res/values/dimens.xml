@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="ListW">350dp</dimen>
+    <dimen name="ListH">250dp</dimen>
+    <dimen name="FormW">170dp</dimen>
+    <dimen name="FormH">40dp</dimen>
+</resources>
