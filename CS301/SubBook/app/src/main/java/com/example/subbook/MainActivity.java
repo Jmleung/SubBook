@@ -1,3 +1,11 @@
+/*
+ * Copyright © 2018 Team K. CMPUT301, University of Alberta - All Rights Reserved.
+ * You may use distribute or modify this code under terms and conditions of the code of
+ * Student Behaviour
+ * at University of Alberta.
+ * You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+ */
+
 package com.example.subbook;
 
 import android.content.Context;
@@ -25,19 +33,36 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import android.app.Activity;
 
-
+/**
+ * This class is the main body of the app, and takes care of all the buttons
+ * input and is the screen that the user sees.
+ * @author jmleung
+ * @version 1.0
+ */
 public class MainActivity extends Activity {
 
+    //The file that stores the input data
     private static final String FILENAME = "Subs.sav";
+    //All of the text input objects
     private EditText NameText;
     private EditText DateText;
     private EditText CostText;
     private EditText CommentText;
     private ListView SubList;
 
+    //The arraylist and arrayadapter
     private ArrayList<Sub> SubArray;
     private ArrayAdapter<Sub> adapter;
 
+    /**
+     * This function initialized all the buttons, and their respective functions
+     * needed to receive click input.
+     * @Button AddSubB Button to add a new subscription
+     * @Button DelSubB Button to delete the most bottom subscription
+     * @Button EdSubB Button to edit an already existing subscription
+     * @EditText NameText, DateText, CostText, CommentText, the object that take in the string input
+     * of each parameter.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +80,10 @@ public class MainActivity extends Activity {
         CommentText = (EditText) findViewById(R.id.comment);
         ListView SubList = (ListView) findViewById(R.id.subList);
 
-
+        /**
+         * The function that makes the addition button react by adding the text written in the
+         * text boxes as a new subscription.
+         */
         AddSubB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
@@ -71,6 +99,9 @@ public class MainActivity extends Activity {
             }
         });
 
+        /**
+         * The function that deletes the bottom most subscription upon press
+         */
         DelSubB.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
@@ -79,6 +110,12 @@ public class MainActivity extends Activity {
                 saveInFile();
             }
         });
+        /**
+         * The function that replaces an existing subscription with the new parameters as specified
+         * by the data in the text boxes. This is achieved by first looking for the index of the
+         * already existing subscription within the arraylist and then using the built-in set() function
+         * to do the replacement via index.
+         */
         EdSubB.setOnClickListener(new View.OnClickListener() {
 //Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element.
             public void onClick(View v) {
@@ -97,6 +134,12 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    /**
+     * This function initializes variables on strat, including loading up the storage file used to
+     * keep track of the subscriptions. This is also where the problematic ArrayAdapter causes
+     * errors on execution of the program, this problem was traced through the debugger.
+     */
     @Override
     protected void onStart() {
 
@@ -111,6 +154,10 @@ public class MainActivity extends Activity {
 
     }
 
+    /** From lonelyTwitter lab activity.
+     * 2018-01-23
+     * Loads items from the Gson file.
+     */
     private void loadFromFile() {
 
         try {
@@ -119,8 +166,6 @@ public class MainActivity extends Activity {
 
             Gson gson = new Gson();
 
-            // From lonelyTwitter lab activity.
-            // 2018-01-23
             Type listType = new TypeToken<ArrayList<Sub>>(){}.getType();
             SubArray = gson.fromJson(in, listType);
 
@@ -132,6 +177,10 @@ public class MainActivity extends Activity {
 
     }
 
+    /** From lonelyTwitter lab activity.
+     * 2018-01-23
+     * Loads items into the Gson file.
+     */
     private void saveInFile() {
         try {
 
